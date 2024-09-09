@@ -13,15 +13,14 @@ public class PlayerBehavior : MonoBehaviour
 
     public GameObject bullet;
     public float bulletSpeed = 100f;
-    public bool demoKinematicMovement = false;
+    //public bool demoKinematicMovement = false;
     public bool isGrounded = true;
 
     private float vInput;
     private float hInput;
     private Rigidbody _rb;
     private CapsuleCollider _col;
-    private GameBehavior _gameManager;
-    private GameObject gem;
+    //private GameBehavior _gameManager;
 
     public int gold;
 
@@ -32,17 +31,17 @@ public class PlayerBehavior : MonoBehaviour
     {
         _rb = GetComponent<Rigidbody>();
         _col = GetComponent<CapsuleCollider>();
-        _gameManager = GameObject.Find("GameManager").GetComponent<GameBehavior>();
+        //_gameManager = GameObject.Find("GameManager").GetComponent<GameBehavior>();
     }
 
     void Update()
     {
         vInput = Input.GetAxis("Vertical") * moveSpeed;
         hInput = Input.GetAxis("Horizontal") * rotateSpeed;
-        if (demoKinematicMovement)
+        /*if (demoKinematicMovement)
         {
             MoveKinematically();
-        }
+        }*/
         if (IsGrounded() && Input.GetKeyDown(KeyCode.Space))
         {
             doJump = true;
@@ -52,10 +51,10 @@ public class PlayerBehavior : MonoBehaviour
             doShoot = true;
         }
 
-        if (demoKinematicMovement)
+        /*if (demoKinematicMovement)
         {
             return;
-        }
+        }*/
 
         if (doJump)
         {
@@ -70,10 +69,10 @@ public class PlayerBehavior : MonoBehaviour
         {
             isGrounded = true;
         }
-        if (collision.gameObject.name == "enemy")
+        /*if (collision.gameObject.name == "enemy")
         {
             _gameManager.HP -= 1;
-        }
+        }*/
     }
 
     private void FixedUpdate()
@@ -91,11 +90,11 @@ public class PlayerBehavior : MonoBehaviour
         }
     }
 
-    void MoveKinematically()
+    /*void MoveKinematically()
     {
         this.transform.Translate(Vector3.forward * vInput * Time.deltaTime);
         this.transform.Rotate(Vector3.up * hInput * Time.deltaTime);
-    }
+    }*/
 
     private bool IsGrounded()
     {
@@ -109,21 +108,27 @@ public class PlayerBehavior : MonoBehaviour
         switch (hit.gameObject.tag)
         {
             case "Gem1":
+                Debug.Log("Gem1 Found");
                 Destroy(GameObject.FindWithTag("Gem1"));
                 break;
             case "Gem2":
+                Debug.Log("Gem2 Found");
                 Destroy(GameObject.FindWithTag("Gem2"));
                 break;
             case "Gem3":
+                Debug.Log("Gem3 Found");
                 Destroy(GameObject.FindWithTag("Gem3"));
                 break;
             case "Gem4":
+                Debug.Log("Gem4 Found");
                 Destroy(GameObject.FindWithTag("Gem4"));
                 break;
             case "Gem5":
+                Debug.Log("Gem5 Found");
                 Destroy(GameObject.FindWithTag("Gem5"));
                 break;
             case "Gem6":
+                Debug.Log("Gem6 Found");
                 Destroy(GameObject.FindWithTag("Gem6"));
                 break;
         }
