@@ -5,7 +5,7 @@ using UnityEngine;
 public enum PickupType
 {
     Gold,
-    Health
+    Ammo
 }
 
 public class Pickup : MonoBehaviour
@@ -13,20 +13,26 @@ public class Pickup : MonoBehaviour
     public PickupType type;
     public int value;
 
-    void OnTriggerEnter (Collider collision)
+    private void OnTriggerEnter(Collider other)
     {
-        if(collision.CompareTag("Player"))
+        Debug.Log("Pickup triggered.");
+
+        if (other.CompareTag("Player"))
         {
-            PlayerBehavior player = collision.gameObject.GetComponent<PlayerBehavior>();
+            PlayerBehavior player = GameManager.instance.GetPlayer(other.gameObject);
 
             if (type == PickupType.Gold)
-            {
-                PlayerBehavior.player.("GiveGold", player, value);
-            }
-            else if (type == PickupType.Health)
-                player("Heal", player, value);
+                GiveGold(player, value);
+            else if (type == PickupType.Ammo)
+                GiveAmmo(player, value);
 
-            Destroy(gameObject);
+            // destroy the object
+            DestroyPickup();
         }
+    }
+
+    public void DestroyPickup()
+    {
+        Destroy(gameObject);
     }
 }*/

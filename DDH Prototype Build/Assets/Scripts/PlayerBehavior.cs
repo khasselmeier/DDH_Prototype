@@ -4,103 +4,63 @@ using UnityEngine;
 
 public class PlayerBehavior : MonoBehaviour
 {
-    public float moveSpeed = 15f;
-    public float rotateSpeed = 75f;
-    public float jumpVelocity = 20f;
-
+    [Header("Stats")]
+    public float moveSpeed;
+    public float jumpForce;
     public float distanceToGround = 0.1f;
+
     public LayerMask groundLayer;
 
-    public GameObject bullet;
-    public float bulletSpeed = 100f;
-    //public bool demoKinematicMovement = false;
+    [Header("Components")]
+    public Rigidbody rig;
+    public MeshRenderer mr;
+    public PlayerRocks rocks;
     public bool isGrounded = true;
 
-    private float vInput;
-    private float hInput;
-    private Rigidbody _rb;
-    private CapsuleCollider _col;
-    //private GameBehavior _gameManager;
+    //public int gold;
 
-    public int gold;
-
-    private bool doJump = false;
-    private bool doShoot = false;
-
-    private void Start()
+    public void Initialize()
     {
-        _rb = GetComponent<Rigidbody>();
-        _col = GetComponent<CapsuleCollider>();
-        //_gameManager = GameObject.Find("GameManager").GetComponent<GameBehavior>();
+        GameUI.instance.Initialize();
+        rig.isKinematic = true;
     }
 
+    
     void Update()
     {
-        vInput = Input.GetAxis("Vertical") * moveSpeed;
-        hInput = Input.GetAxis("Horizontal") * rotateSpeed;
-        /*if (demoKinematicMovement)
-        {
-            MoveKinematically();
-        }*/
-        if (IsGrounded() && Input.GetKeyDown(KeyCode.Space))
-        {
-            doJump = true;
-        }
-        if (Input.GetMouseButtonDown(0)) //player will throw rocks
-        {
-            doShoot = true;
-        }
+        Move();
 
-        /*if (demoKinematicMovement)
-        {
-            return;
-        }*/
+        if (Input.GetKeyDown(KeyCode.Space))
+            TryJump();
 
-        if (doJump)
-        {
-            _rb.AddForce(Vector3.up * jumpVelocity, ForceMode.Impulse);
-            doJump = false;
-        }
+        if (Input.GetMouseButtonDown(0))
+            rocks.TryShoot();
     }
 
-    private void OnCollision(Collision collision)
+    void Move()
     {
-        if (collision.gameObject.name == "Ground")
-        {
-            isGrounded = true;
-        }
-        /*if (collision.gameObject.name == "enemy")
-        {
-            _gameManager.HP -= 1;
-        }*/
+        //get the input axis
+        float x = Input.GetAxis("Horizontal");
+        float z = Input.GetAxis("Vertical");
+
+        //calculate a direction relative to where we're facing
+        Vector3 dir = (transform.forward * z + transform.right * x) * moveSpeed;
+        dir.y = rig.velocity.y;
+
+        //set that as our velocity
+        rig.velocity = dir;
     }
 
-    private void FixedUpdate()
+    void TryJump()
     {
-        Vector3 rotation = Vector3.up * hInput;
-        Quaternion angleRot = Quaternion.Euler(rotation * Time.fixedDeltaTime);
-        _rb.MovePosition(this.transform.position + this.transform.forward * vInput * Time.fixedDeltaTime);
-        _rb.MoveRotation(_rb.rotation * angleRot);
-        if (doShoot)
-        {
-            GameObject newBullet = Instantiate(bullet, this.transform.position + this.transform.right, this.transform.rotation) as GameObject;
-            Rigidbody bulletRB = newBullet.GetComponent<Rigidbody>();
-            bulletRB.velocity = this.transform.forward * bulletSpeed;
-            doShoot = false;
-        }
-    }
+        Debug.Log("Jumping");
 
-    /*void MoveKinematically()
-    {
-        this.transform.Translate(Vector3.forward * vInput * Time.deltaTime);
-        this.transform.Rotate(Vector3.up * hInput * Time.deltaTime);
-    }*/
+        //create a ray facing down
+        Ray ray = new Ray(transform.position, Vector3.down);
 
-    private bool IsGrounded()
-    {
-        Vector3 capsuleBottom = new Vector3(_col.bounds.center.x, _col.bounds.min.y, _col.bounds.center.z);
-        bool grounded = Physics.CheckCapsule(_col.bounds.center, capsuleBottom, distanceToGround, groundLayer, QueryTriggerInteraction.Ignore);
-        return grounded;
+        //shoot the raycast
+        if (Physics.Raycast(ray, 100.0f))
+            rig.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
     }
 
     private void OnCollisionEnter(Collision hit)
@@ -133,8 +93,8 @@ public class PlayerBehavior : MonoBehaviour
                 break;
         }
     }
-    /*
-    void GiveGold(int goldToGive)
+
+    /*void GiveGold(int goldToGive)
     {
         gold += goldToGive;
 
