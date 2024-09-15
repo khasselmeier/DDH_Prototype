@@ -1,11 +1,16 @@
 # DDH_Prototype
-**Tasks to Complete:**
+**What's New:**
+1. Players can use WASD to move around the cave
+2. Players use their mouse to control camera movement
+3. Collect gems by walking near them
 
-1. Add rocks for players to pick up and throw at enemies
-2. Allow players to die to enemies
-3. Add a way to win
-4. Add the quota needed to win and the current collected quota to UI
-5. Add gold to collect and NPCs to trade with
+**What's Coming Soon:**
+1. Rocks for players to pick up and throw at enemies
+2. Players can collect gold
+3. Players can die to enemies
+4. A way to win the game
+5. The quota needed to win and the current collected quota will be shown on UI
+6. Players can trade with NPCs to receive upgrades
 
 Play: https://khasselmeier.github.io/DDH_Prototype/
 
