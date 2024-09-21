@@ -2,17 +2,45 @@ using UnityEngine;
 
 public class GemPickup : MonoBehaviour
 {
-    private const int totalGems = 6; // total number of gems needed to win (constant number)
+    public static int totalGems; // Total number of gems needed to win
     public static int collectedGems; // number of gems collected
+
     private bool isPlayerInRange = false; // tracks if the player is in range
     private PlayerBehavior player; // ref to the player
+
+    [Header("Gem Value Settings")]
+    public int minGemValue = 0; // Minimum value for gem pickup
+    public int maxGemValue = 70; // Maximum value for gem pickup
+    private int gemValue; // Random value for the gem pickup
+
+    private void Start()
+    {
+        // total quota random value between 50 and 150
+        totalGems = Random.Range(50, 150);
+        Debug.Log("Total quota needed to win: " + totalGems);
+
+        // assign a random gem value between minGemValue and maxGemValue
+        gemValue = Random.Range(minGemValue, maxGemValue + 1);
+        Debug.Log("Gem value assigned: " + gemValue);
+
+        // Update the UI with the total gems
+        if (GameUI.instance != null)
+        {
+            GameUI.instance.UpdateTotalGemsText();
+        }
+        else
+        {
+            Debug.LogError("GameUI instance is not initialized.");
+        }
+    }
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
         {
-            isPlayerInRange = true; // Player is in range
             Debug.Log("Player entered gem pickup range.");
+
+            isPlayerInRange = true; // Player is in range
             player = other.GetComponent<PlayerBehavior>(); // Store the player reference
         }
     }
@@ -21,17 +49,19 @@ public class GemPickup : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
+            Debug.Log("Player exited gem pickup range.");
+
             isPlayerInRange = false; // Player has exited the range
             player = null; // Clear player reference
-            Debug.Log("Player exited gem pickup range.");
         }
     }
 
     private void Update()
     {
-        if (isPlayerInRange && Input.GetKeyDown(KeyCode.C))
+        if (isPlayerInRange && Input.GetMouseButtonDown(0)) // check for left mouse button down (button index 0)
         {
             Debug.Log("Attempting to collect gem...");
+
             if (player != null)
             {
                 Debug.Log("Player has traded: " + player.hasTraded); // Check trade status
@@ -53,7 +83,7 @@ public class GemPickup : MonoBehaviour
 
     private void CollectGem()
     {
-        collectedGems++; // Increment collected gems
+        collectedGems += gemValue; // increment collected gems by the random gem value
         Debug.Log("Gem Collected! Total Collected: " + collectedGems);
 
         // play a sfx here

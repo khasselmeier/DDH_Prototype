@@ -9,6 +9,8 @@ public class GameUI : MonoBehaviour
     public TextMeshProUGUI ammoText; // Text for displaying rock amount
     public TextMeshProUGUI goldText; // Text for displaying collected gold
     public TextMeshProUGUI gemsText; // Text for displaying collected gems
+    public TextMeshProUGUI totalGemsText; // Text for displaying total quota
+
 
     private PlayerBehavior player;
 
@@ -38,7 +40,12 @@ public class GameUI : MonoBehaviour
         UpdateAmmoText();
         UpdateGemsText();
         UpdateGoldText(player.gold);
+        UpdateTotalGemsText(); // update total quota to win UI on initialization
+    }
 
+    public void UpdateTotalGemsText()
+    {
+        totalGemsText.text = "Quota to Win: " + GemPickup.totalGems; // Update with the total quota to win
     }
 
     public void UpdateAmmoText()

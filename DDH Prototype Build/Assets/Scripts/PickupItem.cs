@@ -11,11 +11,50 @@ public class PickupItem : MonoBehaviour
     public ItemType itemType; // Type of the item to pick up
     public int amount = 1; // Amount to add to player's inventory
 
+    private bool isPlayerInRange = false; // tracks if the player is in range
+    private PlayerBehavior player; // ref to the player
+
+    private void Start()
+    {
+        // Assign random values for rock amount
+        if (itemType == ItemType.Rock)
+        {
+            amount = Random.Range(1, 5); // random value for rocks
+        }
+        else if (itemType == ItemType.Gold)
+        {
+            amount = Random.Range(10, 30); // random value for gold
+        }
+
+        Debug.Log($"{itemType} pickup created with amount: {amount}");
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
         {
-            PlayerBehavior player = other.GetComponent<PlayerBehavior>();
+            isPlayerInRange = true; // Player is in range
+            player = other.GetComponent<PlayerBehavior>(); // Store the player reference
+            Debug.Log("Player entered pickup range.");
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            isPlayerInRange = false; // Player has exited the range
+            player = null; // Clear player reference
+            Debug.Log("Player exited pickup range.");
+        }
+    }
+
+    private void Update()
+    {
+        if (isPlayerInRange && Input.GetKeyDown(KeyCode.F)) // Check for 'F' key
+        {
+            Debug.Log("Attempting to collect item...");
+
             if (player != null)
             {
                 switch (itemType)
@@ -28,12 +67,16 @@ public class PickupItem : MonoBehaviour
                         break;
                 }
 
-                // update the UI
+                // Update the UI
                 GameUI.instance.UpdateAmmoText(); // Update ammo UI
                 GameUI.instance.UpdateGoldText(player.gold); // Update gold UI
 
-                // destroy the pickup item after collection
+                // Destroy the pickup item after collection
                 Destroy(gameObject);
+            }
+            else
+            {
+                Debug.Log("Player reference is null!");
             }
         }
     }

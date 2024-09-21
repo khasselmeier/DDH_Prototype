@@ -34,7 +34,7 @@ public class PlayerBehavior : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space))
             TryJump();
 
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(1)) // check for right mouse button down (button index 1)
             rocks.TryShoot();
     }
 
