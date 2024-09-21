@@ -6,9 +6,9 @@ using TMPro;
 
 public class GameUI : MonoBehaviour
 {
-    public TextMeshProUGUI ammoText;
-    public TextMeshProUGUI goldText;
-    //public Slider healthBar;
+    public TextMeshProUGUI ammoText; // Text for displaying rock amount
+    public TextMeshProUGUI goldText; // Text for displaying collected gold
+    public TextMeshProUGUI gemsText; // Text for displaying collected gems
 
     private PlayerBehavior player;
 
@@ -20,27 +20,48 @@ public class GameUI : MonoBehaviour
         instance = this;
     }
 
+    private void Start()
+    {
+        player = FindObjectOfType<PlayerBehavior>(); // Find the player in the scene
+        if (player == null)
+        {
+            Debug.LogError("PlayerBehavior not found in the scene.");
+        }
+        else
+        {
+            Initialize();
+        }
+    }
+
     public void Initialize()
     {
-        /*healthBar.maxValue = player.maxHp;
-        healthBar.value = player.curHp;*/
-
         UpdateAmmoText();
         //UpdateGoldText();
+        UpdateGemsText();
+
     }
+
 
     /*public void UpdateGoldText(int gold)
     {
         goldText.text = "<b>Gold:</b> " + gold;
-    }
-
-    public void UpdateHealthBar()
-    {
-        healthBar.value = player.curHp;
     }*/
 
     public void UpdateAmmoText()
     {
-        ammoText.text = player.rocks.curAmmo + " / " + player.rocks.maxAmmo;
+        if (player != null && player.rocks != null)
+        {
+            Debug.Log("Update Ammo UI: " + player.rocks.curAmmo + " / " + player.rocks.maxAmmo);
+            ammoText.text = "Rocks: " + player.rocks.curAmmo + " / " + player.rocks.maxAmmo;
+        }
+        else
+        {
+            Debug.LogError("Player or player's rocks is not initialized.");
+        }
+    }
+
+    public void UpdateGemsText()
+    {
+        gemsText.text = "Quota Collected: " + GemPickup.collectedGems;
     }
 }

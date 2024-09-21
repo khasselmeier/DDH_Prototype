@@ -5,6 +5,6 @@ public class RestartGame : MonoBehaviour
 {
     public void RestartGameButton()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 2);
+        SceneManager.LoadScene("Menu");
     }
 }

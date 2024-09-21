@@ -26,10 +26,13 @@ public class PlayerRocks : MonoBehaviour
 
     public void TryShoot()
     {
+        //Debug.Log("Try Throwing Rock");
+
         //can we throw rocks?
         if (curAmmo <= 0 || Time.time - lastShootTime < shootRate)
             return;
 
+        //reduce ammo
         curAmmo--;
         lastShootTime = Time.time;
 
@@ -38,14 +41,12 @@ public class PlayerRocks : MonoBehaviour
 
         //spawn the bullet
         SpawnBullet(bulletSpawnPos.position, Camera.main.transform.forward);
-
-        /*GameObject newBullet = Instantiate(bulletSpawnPos, this.transform.position + this.transform.right, this.transform.rotation) as GameObject;
-        Rigidbody bulletRB = newBullet.GetComponent<Rigidbody>();
-        bulletRB.velocity = this.transform.forward * bulletSpeed;*/
     }
 
     void SpawnBullet(Vector3 pos, Vector3 dir)
     {
+        //Debug.Log("Spawn Rock");
+
         //spawn and orientate it
         GameObject bulletObj = Instantiate(bulletPrefab, pos, Quaternion.identity);
         bulletObj.transform.forward = dir;
@@ -54,16 +55,15 @@ public class PlayerRocks : MonoBehaviour
         Bullet bulletScript = bulletObj.GetComponent<Bullet>();
 
         //intialize it and set the velocity
-        //bulletScript.Initialize(damage, player.id, player.photonView.IsMine);
         bulletScript.Initialize();
-        //bulletScript.rig.velocity = dir * bulletSpeed;
+        bulletScript.rig.velocity = dir * bulletSpeed;
     }
 
-    /*public void GiveAmmo(int ammoToGive)
+    public void GiveAmmo(int ammoToGive)
     {
         curAmmo = Mathf.Clamp(curAmmo + ammoToGive, 0, maxAmmo);
 
         //update ammo UI
         GameUI.instance.UpdateAmmoText();
-    }*/
+    }
 }

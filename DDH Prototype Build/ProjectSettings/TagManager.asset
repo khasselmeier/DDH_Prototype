@@ -5,13 +5,8 @@ TagManager:
   serializedVersion: 2
   tags:
   - Ground
-  - Gem1
-  - Gem2
-  - Gem3
-  - Gem4
-  - Gem5
-  - Gem6
   - Enemy
+  - Bullet
   layers:
   - Default
   - TransparentFX

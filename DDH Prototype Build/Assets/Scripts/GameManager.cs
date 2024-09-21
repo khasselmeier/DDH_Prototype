@@ -1,25 +1,26 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
-    //instance 
-    public static GameManager instance;
+    public static GameManager Instance;
 
-    void Awake()
+    private void Awake()
     {
-        instance = this;
-    }
-    /*
-    public PlayerBehavior GetPlayer(GameObject playerObject)
-    {
-        foreach (PlayerBehavior player in players)
+        if (Instance == null)
         {
-            if (player != null && player.gameObject == playerObject)
-                return player;
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
         }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
 
-        return null;
-    }*/
+    public void WinGame()
+    {
+        Debug.Log("You collected all the gems! You win!");
+        SceneManager.LoadScene("End");
+    }
 }

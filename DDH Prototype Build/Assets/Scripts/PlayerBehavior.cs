@@ -15,7 +15,7 @@ public class PlayerBehavior : MonoBehaviour
     public Rigidbody rig;
     public MeshRenderer mr;
     public PlayerRocks rocks;
-    public bool isGrounded = true;
+    //public bool isGrounded = true;
 
     //public int gold;
 
@@ -59,39 +59,8 @@ public class PlayerBehavior : MonoBehaviour
         Ray ray = new Ray(transform.position, Vector3.down);
 
         //shoot the raycast
-        if (Physics.Raycast(ray, 100.0f))
+        if (Physics.Raycast(ray, 6.0f))
             rig.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
-    }
-
-    private void OnCollisionEnter(Collision hit)
-    {
-        switch (hit.gameObject.tag)
-        {
-            case "Gem1":
-                Debug.Log("Gem1 Found");
-                Destroy(GameObject.FindWithTag("Gem1"));
-                break;
-            case "Gem2":
-                Debug.Log("Gem2 Found");
-                Destroy(GameObject.FindWithTag("Gem2"));
-                break;
-            case "Gem3":
-                Debug.Log("Gem3 Found");
-                Destroy(GameObject.FindWithTag("Gem3"));
-                break;
-            case "Gem4":
-                Debug.Log("Gem4 Found");
-                Destroy(GameObject.FindWithTag("Gem4"));
-                break;
-            case "Gem5":
-                Debug.Log("Gem5 Found");
-                Destroy(GameObject.FindWithTag("Gem5"));
-                break;
-            case "Gem6":
-                Debug.Log("Gem6 Found");
-                Destroy(GameObject.FindWithTag("Gem6"));
-                break;
-        }
     }
 
     /*void GiveGold(int goldToGive)
@@ -101,4 +70,16 @@ public class PlayerBehavior : MonoBehaviour
         //update the ui
         GameUI.instance.UpdateGoldText(gold);
     }*/
+
+    public void ChangeAmmo(int amount)
+    {
+        // Method is called to change ammo
+        rocks.curAmmo += amount;
+
+        // Ensure ammo doesn't exceed max
+        rocks.curAmmo = Mathf.Clamp(rocks.curAmmo, 0, rocks.maxAmmo);
+
+        // Notify the UI to update
+        GameUI.instance.UpdateAmmoText();
+    }
 }
