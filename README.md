@@ -4,8 +4,10 @@
 
 **General:**
 1. Win by collecting the quota (collect all gems)
-2. Kill enemies by throwing rocks at them (left click to throw rocks)
-3. Players can pick up rocks and gold scattered on the floor
+3. Kill enemies by throwing rocks at them (right click to throw rocks)
+4. Players can pick up rocks and gold scattered on the floor
+5. Added a random quota value to win per game (between 50-150)
+6. Random gem, rock, and gold pickup values
 
 **NPC Changes:**
 1. Players can trade with an NPC by exchanging gold
