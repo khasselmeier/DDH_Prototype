@@ -5,12 +5,12 @@
 3. Collect gems by walking near them
 
 **What's Coming Soon:**
-1. Rocks for players to pick up and throw at enemies
-2. Players can collect gold
-3. Players can die to enemies
-4. A way to win the game
-5. The quota needed to win and the current collected quota will be shown on UI
-6. Players can trade with NPCs to receive upgrades
+1. Players can throw rocks at enemies
+2. Players can collect gold and rocks
+3. Players can trade with NPCs to receive upgrades
+4. Players can die to enemies
+5. A way to win the game
+6. The quota needed to win and the current collected quota will be shown on UI
 
 Play: https://khasselmeier.github.io/DDH_Prototype/
 
