@@ -23,29 +23,23 @@ public class GameUI : MonoBehaviour
     private void Start()
     {
         player = FindObjectOfType<PlayerBehavior>(); // Find the player in the scene
-        if (player == null)
+        if (player != null)
         {
-            Debug.LogError("PlayerBehavior not found in the scene.");
+            Initialize();
         }
         else
         {
-            Initialize();
+            Debug.LogError("PlayerBehavior not found in the scene.");
         }
     }
 
     public void Initialize()
     {
         UpdateAmmoText();
-        //UpdateGoldText();
         UpdateGemsText();
+        UpdateGoldText(player.gold);
 
     }
-
-
-    /*public void UpdateGoldText(int gold)
-    {
-        goldText.text = "<b>Gold:</b> " + gold;
-    }*/
 
     public void UpdateAmmoText()
     {
@@ -63,5 +57,10 @@ public class GameUI : MonoBehaviour
     public void UpdateGemsText()
     {
         gemsText.text = "Quota Collected: " + GemPickup.collectedGems;
+    }
+
+    public void UpdateGoldText(int goldAmount)
+    {
+        goldText.text = "Gold: " + goldAmount;
     }
 }

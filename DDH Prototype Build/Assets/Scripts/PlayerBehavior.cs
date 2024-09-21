@@ -14,10 +14,12 @@ public class PlayerBehavior : MonoBehaviour
     [Header("Components")]
     public Rigidbody rig;
     public MeshRenderer mr;
-    public PlayerRocks rocks;
-    //public bool isGrounded = true;
+    public PlayerRocks rocks; // ref to PlayerRocks
 
-    //public int gold;
+    [Header("Pickups")]
+    public int gold = 0; // variable to track gold
+
+    public bool hasTraded = false; // tracks if the player has traded with the NPC
 
     public void Initialize()
     {
@@ -25,7 +27,6 @@ public class PlayerBehavior : MonoBehaviour
         rig.isKinematic = true;
     }
 
-    
     void Update()
     {
         Move();
@@ -63,14 +64,6 @@ public class PlayerBehavior : MonoBehaviour
             rig.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
     }
 
-    /*void GiveGold(int goldToGive)
-    {
-        gold += goldToGive;
-
-        //update the ui
-        GameUI.instance.UpdateGoldText(gold);
-    }*/
-
     public void ChangeAmmo(int amount)
     {
         // Method is called to change ammo
@@ -81,5 +74,19 @@ public class PlayerBehavior : MonoBehaviour
 
         // Notify the UI to update
         GameUI.instance.UpdateAmmoText();
+    }
+
+    // method to add ammo
+    public void AddAmmo(int amount)
+    {
+        rocks.curAmmo = Mathf.Clamp(rocks.curAmmo + amount, 0, rocks.maxAmmo);
+        Debug.Log("Ammo added: " + amount + ". Current ammo: " + rocks.curAmmo);
+    }
+
+    // method to add gold
+    public void AddGold(int amount)
+    {
+        gold += amount;
+        Debug.Log("Gold added: " + amount + ". Total gold: " + gold);
     }
 }
