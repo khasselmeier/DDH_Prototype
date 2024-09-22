@@ -3,11 +3,12 @@
 ***What's New This Week:***
 
 **General:**
-1. Win by collecting the quota (collect all gems)
-3. Kill enemies by throwing rocks at them (right click to throw rocks)
-4. Players can pick up rocks and gold scattered on the floor
-5. Added a random quota value to win per game (between 50-150)
-6. Random gem, rock, and gold pickup values
+1. Win by collecting the quota
+2. Added a random quota value to win per game (between 50-150)
+3. Random gem, rock, and gold pickup values
+4. Kill enemies by throwing rocks at them (right-click to throw rocks)
+5. Players can pick up rocks and gold scattered on the floor
+6. Players can choose between two characters (does not do anything right now)
 
 **NPC Changes:**
 1. Players can trade with an NPC by exchanging gold
@@ -20,8 +21,11 @@
 
 
 ***What's Coming Soon:***
-1. Players can die to enemies
-2. Enemies will chase the player
+1. Players can play as their selected character
+2. Players can die to enemies
+3. Enemies will chase the player
+4. Add more ways for the player to die
+5. Add a lose screen
 
 
 Play: https://khasselmeier.github.io/DDH_Prototype/
