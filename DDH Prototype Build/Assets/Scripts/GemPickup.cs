@@ -10,7 +10,7 @@ public class GemPickup : MonoBehaviour
 
     [Header("Gem Value Settings")]
     public int minGemValue = 0; // Minimum value for gem pickup
-    public int maxGemValue = 70; // Maximum value for gem pickup
+    public int maxGemValue = 100; // Maximum value for gem pickup
     private int gemValue; // Random value for the gem pickup
 
     private void Start()
