@@ -9,22 +9,22 @@
 4. Kill enemies by throwing rocks at them (right-click to throw rocks)
 5. Players can pick up rocks and gold scattered on the floor
 6. Players can choose between two characters and play as them
+7. Players can die (by lava or flooding)
 
 **NPC Changes:**
 1. Players can trade with an NPC by exchanging gold
 2. Players must trade with an NPC to mine gems
 
 **UI Changes:**
-1. The quota needed to win and current quota are shown on UI
-2. The rock amount is shown on UI
-3. Gold owned is shown on UI
-
+1. The quota needed to win and current quota are shown
+2. The rock amount is shown
+3. Gold owned is shown
+4. The player's current health is shown
 
 ***What's Coming Soon:***
 1. Players can die to enemies
 2. Enemies will chase the player
-3. Add more ways for the player to die
-4. Add a lose screen
+3. More ways for the player to die/more world events
 
 
 Play: https://khasselmeier.github.io/DDH_Prototype/
