@@ -8346,11 +8346,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   floodChance: 0.1
-  floodDuration: 10
-  floodDamageInterval: 2
+  floodDuration: 5
+  floodDamageInterval: 1
   damagePerTick: 5
   floodScreenOverlay: {fileID: 1253020957}
-  checkInterval: 30
+  checkInterval: 15
   fadeSpeed: 1
 --- !u!1 &2066298563
 GameObject:
