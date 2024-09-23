@@ -6,11 +6,11 @@ using TMPro;
 
 public class GameUI : MonoBehaviour
 {
-    public TextMeshProUGUI ammoText; // Text for displaying rock amount
-    public TextMeshProUGUI goldText; // Text for displaying collected gold
-    public TextMeshProUGUI gemsText; // Text for displaying collected gems
-    public TextMeshProUGUI totalGemsText; // Text for displaying total quota
-
+    public TextMeshProUGUI ammoText;
+    public TextMeshProUGUI goldText;
+    public TextMeshProUGUI gemsText;
+    public TextMeshProUGUI totalGemsText;
+    public TextMeshProUGUI healthText;
 
     private PlayerBehavior player;
 
@@ -24,7 +24,7 @@ public class GameUI : MonoBehaviour
 
     private void Start()
     {
-        player = FindObjectOfType<PlayerBehavior>(); // Find the player in the scene
+        player = FindObjectOfType<PlayerBehavior>(); // finds the player in the scene
         if (player != null)
         {
             Initialize();
@@ -40,19 +40,21 @@ public class GameUI : MonoBehaviour
         UpdateAmmoText();
         UpdateGemsText();
         UpdateGoldText(player.gold);
-        UpdateTotalGemsText(); // update total quota to win UI on initialization
+        UpdateTotalGemsText(); // update "total quota to win" UI on initialization
+        UpdateHealthText(player.currentHealth, player.maxHealth);
+
     }
 
     public void UpdateTotalGemsText()
     {
-        totalGemsText.text = "Quota to Win: " + GemPickup.totalGems; // Update with the total quota to win
+        totalGemsText.text = "Quota to Win: " + GemPickup.totalGems;
     }
 
     public void UpdateAmmoText()
     {
         if (player != null && player.rocks != null)
         {
-            Debug.Log("Update Ammo UI: " + player.rocks.curAmmo + " / " + player.rocks.maxAmmo);
+            //Debug.Log("Update Ammo UI: " + player.rocks.curAmmo + " / " + player.rocks.maxAmmo);
             ammoText.text = "Rocks: " + player.rocks.curAmmo + " / " + player.rocks.maxAmmo;
         }
         else
@@ -69,5 +71,10 @@ public class GameUI : MonoBehaviour
     public void UpdateGoldText(int goldAmount)
     {
         goldText.text = "Gold: " + goldAmount;
+    }
+
+    public void UpdateHealthText(int currentHealth, int maxHealth)
+    {
+        healthText.text = "Health: " + currentHealth + " / " + maxHealth;
     }
 }

@@ -39,14 +39,12 @@ public class NPCTrader : MonoBehaviour
         if (player.gold >= upgradeCost)
         {
             player.gold -= upgradeCost; // deduct gold
-
             player.rocks.damage += damageIncrease; // upgrade weapon
-
             player.hasTraded = true; // mark as traded
 
-            Debug.Log("Trade successful! Gold deducted: " + upgradeCost);
-
             GameUI.instance.UpdateGoldText(player.gold); // update gold UI
+
+            Debug.Log("Trade successful! Gold deducted: " + upgradeCost);
         }
         else
         {

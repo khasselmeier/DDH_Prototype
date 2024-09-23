@@ -3,13 +3,13 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
-    public static GameManager Instance;
+    public static GameManager instance;
 
     private void Awake()
     {
-        if (Instance == null)
+        if (instance == null) // only have one instance of the game manager
         {
-            Instance = this;
+            instance = this;
             DontDestroyOnLoad(gameObject);
         }
         else
@@ -20,7 +20,13 @@ public class GameManager : MonoBehaviour
 
     public void WinGame()
     {
-        Debug.Log("You collected all the gems! You win!");
-        SceneManager.LoadScene("End");
+        Debug.Log("You collected the quota! You win!");
+        SceneManager.LoadScene("End"); // switch to "end" scene
+    }
+
+    public void LoseGame()
+    {
+        Debug.Log("Game Over. You Lose");
+        SceneManager.LoadScene("Lose"); // switch to "Lose" scene
     }
 }

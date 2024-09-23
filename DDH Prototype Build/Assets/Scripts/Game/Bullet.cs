@@ -15,14 +15,14 @@ public class Bullet : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Enemy"))
         {
-            // Get the EnemyAI component and call TakeDamage
+            // get EnemyAI component and call TakeDamage
             EnemyAI enemy = collision.gameObject.GetComponent<EnemyAI>();
             if (enemy != null)
             {
                 enemy.TakeDamage(1); // each bullet does 1 damage
             }
 
-            // Destroy the bullet
+            // destroy the bullet
             Destroy(gameObject);
         }
     }

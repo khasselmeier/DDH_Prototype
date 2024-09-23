@@ -8,15 +8,14 @@ public class PickupItem : MonoBehaviour
         Gold
     }
 
-    public ItemType itemType; // Type of the item to pick up
-    public int amount = 1; // Amount to add to player's inventory
+    public ItemType itemType;
+    public int amount = 1; // amt to add to player's inventory
 
-    private bool isPlayerInRange = false; // tracks if the player is in range
+    private bool isPlayerInRange = false;
     private PlayerBehavior player; // ref to the player
 
     private void Start()
     {
-        // Assign random values for rock amount
         if (itemType == ItemType.Rock)
         {
             amount = Random.Range(1, 5); // random value for rocks
@@ -33,9 +32,9 @@ public class PickupItem : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            isPlayerInRange = true; // Player is in range
-            player = other.GetComponent<PlayerBehavior>(); // Store the player reference
-            Debug.Log("Player entered pickup range.");
+            isPlayerInRange = true;
+            player = other.GetComponent<PlayerBehavior>();
+            //Debug.Log("Player entered pickup range.");
         }
     }
 
@@ -43,9 +42,9 @@ public class PickupItem : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            isPlayerInRange = false; // Player has exited the range
-            player = null; // Clear player reference
-            Debug.Log("Player exited pickup range.");
+            isPlayerInRange = false;
+            player = null; // clears player reference
+            //Debug.Log("Player exited pickup range.");
         }
     }
 
@@ -60,18 +59,18 @@ public class PickupItem : MonoBehaviour
                 switch (itemType)
                 {
                     case ItemType.Rock:
-                        player.AddAmmo(amount); // Method to add ammo in PlayerBehavior
+                        player.AddAmmo(amount); // add ammo in PlayerBehavior
                         break;
                     case ItemType.Gold:
-                        player.AddGold(amount); // Method to add gold in PlayerBehavior
+                        player.AddGold(amount); // add gold in PlayerBehavior
                         break;
                 }
 
                 // Update the UI
-                GameUI.instance.UpdateAmmoText(); // Update ammo UI
-                GameUI.instance.UpdateGoldText(player.gold); // Update gold UI
+                GameUI.instance.UpdateAmmoText(); // update ammo UI
+                GameUI.instance.UpdateGoldText(player.gold); // update gold UI
 
-                // Destroy the pickup item after collection
+                // destroy item after collection
                 Destroy(gameObject);
             }
             else

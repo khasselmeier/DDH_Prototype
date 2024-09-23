@@ -8,6 +8,8 @@ public class PlayerBehavior : MonoBehaviour
     public float moveSpeed;
     public float jumpForce;
     public float distanceToGround = 0.1f;
+    public int maxHealth = 100;
+    public int currentHealth;
 
     public LayerMask groundLayer;
 
@@ -17,14 +19,20 @@ public class PlayerBehavior : MonoBehaviour
     public PlayerRocks rocks; // ref to PlayerRocks
 
     [Header("Pickups")]
-    public int gold = 0; // variable to track gold
-
+    public int gold = 0;
     public bool hasTraded = false; // tracks if the player has traded with the NPC
+
+    private void Start()
+    {
+        Initialize();
+    }
 
     public void Initialize()
     {
         GameUI.instance.Initialize();
-        rig.isKinematic = true;
+        //rig.isKinematic = true;
+        currentHealth = maxHealth; // give player max health at the start
+        GameUI.instance.UpdateHealthText(currentHealth, maxHealth); //update health ui
     }
 
     void Update()
@@ -34,7 +42,7 @@ public class PlayerBehavior : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space))
             TryJump();
 
-        if (Input.GetMouseButtonDown(1)) // check for right mouse button down (button index 1)
+        if (Input.GetMouseButtonDown(1)) // right mouse button down (button index 1)
             rocks.TryShoot();
     }
 
@@ -54,39 +62,62 @@ public class PlayerBehavior : MonoBehaviour
 
     void TryJump()
     {
-        Debug.Log("Jumping");
+        //Debug.Log("Jumping");
 
-        //create a ray facing down
+        // create a ray facing down
         Ray ray = new Ray(transform.position, Vector3.down);
 
-        //shoot the raycast
+        // shoot the raycast
         if (Physics.Raycast(ray, 6.0f))
             rig.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
     }
 
     public void ChangeAmmo(int amount)
     {
-        // Method is called to change ammo
+        // change ammo
         rocks.curAmmo += amount;
 
-        // Ensure ammo doesn't exceed max
+        // ammo doesn't exceed max
         rocks.curAmmo = Mathf.Clamp(rocks.curAmmo, 0, rocks.maxAmmo);
 
-        // Notify the UI to update
+        // update UI
         GameUI.instance.UpdateAmmoText();
     }
 
-    // method to add ammo
     public void AddAmmo(int amount)
     {
         rocks.curAmmo = Mathf.Clamp(rocks.curAmmo + amount, 0, rocks.maxAmmo);
         Debug.Log("Ammo added: " + amount + ". Current ammo: " + rocks.curAmmo);
     }
 
-    // method to add gold
     public void AddGold(int amount)
     {
         gold += amount;
         Debug.Log("Gold added: " + amount + ". Total gold: " + gold);
+    }
+
+    public void TakeDamage(int damage)
+    {
+        currentHealth -= damage;
+        GameUI.instance.UpdateHealthText(currentHealth, maxHealth); // update health UI
+        Debug.Log($"Player took {damage} damage. Current health: {currentHealth}");
+
+        if (currentHealth <= 0)
+        {
+            Die();
+        }
+    }
+
+    public void Heal(int healAmount)
+    {
+        currentHealth = Mathf.Clamp(currentHealth + healAmount, 0, maxHealth);
+        GameUI.instance.UpdateHealthText(currentHealth, maxHealth); // update health UI
+        Debug.Log("Player healed: " + healAmount + ". Current health: " + currentHealth);
+    }
+
+    private void Die()
+    {
+        Debug.Log("Player has died.");
+        GameManager.instance.LoseGame();
     }
 }

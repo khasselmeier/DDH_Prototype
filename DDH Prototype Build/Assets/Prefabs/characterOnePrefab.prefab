@@ -181,9 +181,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d476be3261280264c8fad4a465827cce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 25
+  moveSpeed: 15
   jumpForce: 60
   distanceToGround: 0.1
+  maxHealth: 200
+  currentHealth: 0
   groundLayer:
     serializedVersion: 2
     m_Bits: 8
