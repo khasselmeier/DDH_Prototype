@@ -1,11 +1,13 @@
 using UnityEngine;
 using UnityEngine.AI;
 
-public class EnemyAI : MonoBehaviour
+/*public class EnemyAI : MonoBehaviour
 {
     public float chaseRange = 10f;
     public float stopChaseRange = 15f;
-    public float distanceToPlayer; // distance between the enemy and the player
+    public float attackRange = 2f; 
+    public float attackCooldown = 2f;
+    public float distanceToPlayer;
 
     public Transform[] patrolPoints;
     public float patrolSpeed = 2f;
@@ -13,12 +15,14 @@ public class EnemyAI : MonoBehaviour
 
     public int maxHealth = 3;
     private int currentHealth;
+    public int damageAmount = 10;
 
     private NavMeshAgent navMeshAgent;
     private Transform player;
     private bool isChasing = false;
     private int currentPatrolIndex;
     private float waitTimer;
+    private float attackTimer;
 
     void Start()
     {
@@ -26,6 +30,7 @@ public class EnemyAI : MonoBehaviour
         currentPatrolIndex = 0; // start at the first patrol point
         navMeshAgent.speed = patrolSpeed;
         currentHealth = maxHealth; // initialize health
+        attackTimer = 0f;
     }
 
     void Update()
@@ -55,11 +60,19 @@ public class EnemyAI : MonoBehaviour
         if (isChasing)
         {
             navMeshAgent.SetDestination(player.position);
+
+            // if within attack range, attack the player
+            if (distanceToPlayer <= attackRange)
+            {
+                AttackPlayer();
+            }
         }
         else
         {
             Patrol();
         }
+
+        attackTimer += Time.deltaTime;
     }
 
     private void Patrol()
@@ -89,7 +102,7 @@ public class EnemyAI : MonoBehaviour
         if (playerObject != null)
         {
             player = playerObject.transform;
-            Debug.Log("Player found by EnemyAI");
+            //Debug.Log("Player found by EnemyAI");
         }
         else
         {
@@ -123,10 +136,25 @@ public class EnemyAI : MonoBehaviour
         }
     }
 
+    private void AttackPlayer()
+    {
+        if (attackTimer >= attackCooldown)
+        {
+            PlayerBehavior playerBehavior = player.GetComponent<PlayerBehavior>();
+
+            if (playerBehavior != null)
+            {
+                playerBehavior.TakeDamage(damageAmount);
+                Debug.Log($"Player took {damageAmount} damage from the enemy!");
+            }
+
+            attackTimer = 0f; // resets timer
+        }
+    }
+
     private void Die()
     {
         Debug.Log("Enemy has died.");
-        // add death animation/effect here
         Destroy(gameObject);
     }
-}
+}*/

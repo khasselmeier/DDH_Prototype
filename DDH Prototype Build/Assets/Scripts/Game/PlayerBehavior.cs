@@ -10,6 +10,7 @@ public class PlayerBehavior : MonoBehaviour
     public float distanceToGround = 0.1f;
     public int maxHealth = 100;
     public int currentHealth;
+    public int npcHitDamage = 50;
 
     public LayerMask groundLayer;
 
@@ -17,6 +18,7 @@ public class PlayerBehavior : MonoBehaviour
     public Rigidbody rig;
     public MeshRenderer mr;
     public PlayerRocks rocks; // ref to PlayerRocks
+    public GameObject pickaxe;
 
     [Header("Pickups")]
     public int gold = 0;
@@ -25,12 +27,16 @@ public class PlayerBehavior : MonoBehaviour
     private void Start()
     {
         Initialize();
+
+        if (pickaxe != null)
+        {
+            pickaxe.GetComponent<MeshRenderer>().enabled = false;
+        }
     }
 
     public void Initialize()
     {
         GameUI.instance.Initialize();
-        //rig.isKinematic = true;
         currentHealth = maxHealth; // give player max health at the start
         GameUI.instance.UpdateHealthText(currentHealth, maxHealth); //update health ui
     }
@@ -119,5 +125,11 @@ public class PlayerBehavior : MonoBehaviour
     {
         Debug.Log("Player has died.");
         GameManager.instance.LoseGame();
+    }
+
+    public void OnNpcHit()
+    {
+        Debug.Log("The NPC doesn't enjoy being hit");
+        TakeDamage(npcHitDamage); // Player takes damage when hitting the NPC
     }
 }
