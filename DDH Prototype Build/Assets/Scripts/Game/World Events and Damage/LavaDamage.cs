@@ -48,7 +48,7 @@ public class LavaDamage : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             isPlayerInLava = false;
-            damageTimer = 0f; // Reset the damage timer when the player leaves the lava
+            damageTimer = 0f; // reset damage timer
             Debug.Log("Player has left the lava");
         }
     }

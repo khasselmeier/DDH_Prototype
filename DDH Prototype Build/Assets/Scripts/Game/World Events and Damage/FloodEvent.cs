@@ -6,10 +6,10 @@ using UnityEngine.UI;
 public class FloodEvent : MonoBehaviour
 {
     public float floodChance = 0.1f; // 10% chance for a flood to occur per check
-    public float floodDuration = 10f; // how long the flood lasts
+    public float floodDuration = 10f;
     public float floodDamageInterval = 1f; // how often the player takes damage per second
-    public int damagePerTick = 5; // dmg dealt
-    public Image floodScreenOverlay; // will make the screen blue
+    public int damagePerTick = 5;
+    public Image floodScreenOverlay;
 
     private bool isFlooding = false;
     private float timeSinceLastCheck = 0f;

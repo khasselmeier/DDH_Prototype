@@ -59,28 +59,24 @@ public class EnemyChaseAttack : MonoBehaviour
         }
     }
 
-    // Method to make the enemy attack the player
     private void AttackPlayer()
     {
-        // Implement attack logic, e.g., reduce player's health
         PlayerBehavior playerBehavior = player.GetComponent<PlayerBehavior>();
         if (playerBehavior != null)
         {
-            playerBehavior.TakeDamage(10); // Deal 20 damage to the player
+            playerBehavior.TakeDamage(10);
             Debug.Log("Enemy attacked the player!");
 
             alreadyAttacked = true;
-            Invoke(nameof(ResetAttack), timeBetweenAttacks); // Reset attack after a delay
+            Invoke(nameof(ResetAttack), timeBetweenAttacks);
         }
     }
 
-    // Resets the attack status to allow for the next attack
     private void ResetAttack()
     {
         alreadyAttacked = false;
     }
 
-    // Start chasing the player
     private void StartChasing()
     {
         if (!isChasing)
@@ -91,15 +87,13 @@ public class EnemyChaseAttack : MonoBehaviour
         }
     }
 
-    // Stop chasing the player
     private void StopChasing()
     {
         isChasing = false;
-        navMeshAgent.speed = patrolSpeed; // Return to patrol speed when not chasing
+        navMeshAgent.speed = patrolSpeed;
         Debug.Log("Enemy has stopped chasing the player.");
     }
 
-    // Method to find the player in the scene
     private void FindPlayer()
     {
         GameObject playerObject = GameObject.FindGameObjectWithTag("Player");
@@ -114,7 +108,6 @@ public class EnemyChaseAttack : MonoBehaviour
         }
     }
 
-    // Method to handle taking damage
     public void TakeDamage(int damage)
     {
         currentHealth -= damage;
@@ -126,7 +119,6 @@ public class EnemyChaseAttack : MonoBehaviour
         }
     }
 
-    // Enemy dies
     private void Die()
     {
         Debug.Log("Enemy has died.");
@@ -136,15 +128,15 @@ public class EnemyChaseAttack : MonoBehaviour
     // Gizmos to show detection and attack ranges in the editor
     private void OnDrawGizmosSelected()
     {
-        // Detection range (chasing)
+        // chasing range
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(transform.position, detectionRange);
 
-        // Stop chase range (larger range to stop chasing)
+        // stop chasing range
         Gizmos.color = Color.blue;
         Gizmos.DrawWireSphere(transform.position, stopChaseRange);
 
-        // Attack range
+        // atk range
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, attackRange);
     }
