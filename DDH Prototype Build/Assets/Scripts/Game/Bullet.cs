@@ -16,7 +16,8 @@ public class Bullet : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Enemy"))
         {
-            EnemyChaseAttack enemy = collision.gameObject.GetComponent<EnemyChaseAttack>();
+            //EnemyChaseAttack enemy = collision.gameObject.GetComponent<EnemyChaseAttack>();
+            EnemyAI enemy = collision.gameObject.GetComponent<EnemyAI>();
             if (enemy != null)
             {
                 enemy.TakeDamage(1); // each bullet does 1 damage

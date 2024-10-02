@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.AI;
 
-/*public class EnemyAI : MonoBehaviour
+public class EnemyAI : MonoBehaviour
 {
     public float chaseRange = 10f;
     public float stopChaseRange = 15f;
@@ -157,4 +157,4 @@ using UnityEngine.AI;
         Debug.Log("Enemy has died.");
         Destroy(gameObject);
     }
-}*/
+}
