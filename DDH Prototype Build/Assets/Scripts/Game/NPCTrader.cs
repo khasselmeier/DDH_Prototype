@@ -3,13 +3,15 @@ using TMPro;
 
 public class NPCTrader : MonoBehaviour
 {
-    public int upgradeCost = 50;
+    public int upgradeCostBaseGem = 50;
+    public int upgradeCostHighGem = 100;
     public int damageIncrease = 5;
-    public TextMeshProUGUI tradePromptText; // Reference to the UI Text that will display the prompt
+    public TextMeshProUGUI tradePromptText;
 
-    private PlayerBehavior player; // ref to the player
-    private bool isPlayerInRange = false; // tracks if the player is in range to trade
-    private bool hasTraded = false;
+    private PlayerBehavior player; 
+    private bool isPlayerInRange = false;
+    private bool hasTradedBaseGem = false;
+    private bool hasTradedHighGem = false;
 
     private void Start()
     {
@@ -19,14 +21,22 @@ public class NPCTrader : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (!hasTraded && other.CompareTag("Player")) // only show prompt if the player hasn't traded yet
+        if (other.CompareTag("Player"))
         {
             player = other.GetComponent<PlayerBehavior>();
             isPlayerInRange = true;
 
-            // show trade prompt UI when in range
-            tradePromptText.gameObject.SetActive(true);
-            tradePromptText.text = "Trade 50 gold for a pickaxe";
+            // update trade prompt based on player's trade status
+            if (!hasTradedBaseGem)
+            {
+                tradePromptText.gameObject.SetActive(true);
+                tradePromptText.text = "Trade 50 gold for a pickaxe to mine gems";
+            }
+            else if (hasTradedBaseGem && !hasTradedHighGem)
+            {
+                tradePromptText.gameObject.SetActive(true);
+                tradePromptText.text = "Having trouble mining some gems? I can fix that for 100 gold";
+            }
         }
     }
 
@@ -35,13 +45,10 @@ public class NPCTrader : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             isPlayerInRange = false;
-            player = null; // clear player ref
+            player = null;
 
-            // hide the trade prompt UI when the player leaves the range
-            if (!hasTraded)
-            {
-                tradePromptText.gameObject.SetActive(false);
-            }
+            // hide trade prompt UI when the player leaves the range
+            tradePromptText.gameObject.SetActive(false);
         }
     }
 
@@ -55,28 +62,41 @@ public class NPCTrader : MonoBehaviour
 
     private void TradeWithPlayer(PlayerBehavior player)
     {
-        if (player.gold >= upgradeCost)
+        // trading for base gems
+        if (!hasTradedBaseGem && player.gold >= upgradeCostBaseGem)
         {
-            player.gold -= upgradeCost;
-            player.rocks.damage += damageIncrease;
+            player.gold -= upgradeCostBaseGem;
+            //player.rocks.damage += damageIncrease; //increase rock dmg
+            player.canMineBaseGem = true;
+            hasTradedBaseGem = true;
             player.hasTraded = true;
-
-            if (player.pickaxe != null)
-            {
-                player.pickaxe.GetComponent<MeshRenderer>().enabled = true;
-                Debug.Log("Pickaxe is now visible");
-            }
-
-            GameUI.instance.UpdateGoldText(player.gold); // update gold UI
-
-            Debug.Log("Trade successful! Gold deducted: " + upgradeCost);
-
             tradePromptText.gameObject.SetActive(false);
-            hasTraded = true;
+
+            Debug.Log("Player traded for ability to mine base gems");
+            //Debug.Log($"Current state: hasTradedBaseGem={hasTradedBaseGem}, canMineBaseGem={player.canMineBaseGem}");
+
+            // Update the UI text for future trades
+            tradePromptText.gameObject.SetActive(true);
+            tradePromptText.text = "Having trouble mining some gems? I can fix that for 100 gold";
+        }
+        // trading for high gems
+        else if (hasTradedBaseGem && !hasTradedHighGem && player.gold >= upgradeCostHighGem)
+        {
+            player.gold -= upgradeCostHighGem;
+            //player.rocks.damage += damageIncrease;
+            player.canMineHighGem = true;
+            hasTradedHighGem = true;
+            player.hasTraded = true;
+            tradePromptText.gameObject.SetActive(false);
+
+            Debug.Log("Player traded for ability to mine high gems");
+            //Debug.Log($"Current state: hasTradedHighGem={hasTradedHighGem}, canMineHighGem={player.canMineHighGem}");
         }
         else
         {
-            Debug.Log("Not enough gold for upgrade.");
+            Debug.Log("Not enough gold for the upgrade.");
         }
+
+        GameUI.instance.UpdateGoldText(player.gold); // update gold UI
     }
 }

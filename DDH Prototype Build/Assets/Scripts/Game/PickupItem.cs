@@ -25,7 +25,7 @@ public class PickupItem : MonoBehaviour
             amount = Random.Range(10, 30); // random value for gold
         }
 
-        Debug.Log($"{itemType} pickup created with amount: {amount}");
+        //Debug.Log($"{itemType} pickup created with amount: {amount}");
     }
 
     private void OnTriggerEnter(Collider other)
@@ -52,7 +52,7 @@ public class PickupItem : MonoBehaviour
     {
         if (isPlayerInRange && Input.GetKeyDown(KeyCode.F)) // Check for 'F' key
         {
-            Debug.Log("Attempting to collect item...");
+            //Debug.Log("Attempting to collect item...");
 
             if (player != null)
             {

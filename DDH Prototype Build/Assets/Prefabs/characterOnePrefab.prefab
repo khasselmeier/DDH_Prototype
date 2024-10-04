@@ -197,6 +197,9 @@ MonoBehaviour:
   pickaxe: {fileID: 3228770625776636650}
   gold: 0
   hasTraded: 0
+  canMineBaseGem: 0
+  canMineHighGem: 0
+  totalValueOfGems: 0
 --- !u!114 &2507222480201273430
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -229,7 +232,7 @@ GameObject:
   - component: {fileID: 6462147978580448708}
   - component: {fileID: 79220653320405109}
   m_Layer: 0
-  m_Name: Main Camera
+  m_Name: CameraController
   m_TagString: MainCamera
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

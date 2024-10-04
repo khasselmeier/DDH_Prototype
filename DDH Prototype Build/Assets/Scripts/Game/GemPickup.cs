@@ -6,24 +6,34 @@ public class GemPickup : MonoBehaviour
     public static int collectedGems;
 
     private bool isPlayerInRange = false;
-    private PlayerBehavior player; // ref to the player
+    private PlayerBehavior player;
 
     [Header("Gem Value Settings")]
     public int minGemValue = 10;
     public int maxGemValue = 100;
-    private int gemValue;
+    public int gemValue;
 
     private void Start()
     {
-        // total quota random value between 50 and 150
-        totalGems = Random.Range(50, 150);
-        Debug.Log("Total quota needed to win: " + totalGems);
+        totalGems = Random.Range(50, 150); // quota will be between the value
+        //Debug.Log("Total quota needed to win: " + totalGems);
 
-        // assign a random gem value between minGemValue and maxGemValue
+        // assign appropriate value range based on tag
+        if (CompareTag("BaseGem"))
+        {
+            minGemValue = 1;
+            maxGemValue = 40;
+        }
+        else if (CompareTag("HighGem"))
+        {
+            minGemValue = 30;
+            maxGemValue = 50;
+        }
+
         gemValue = Random.Range(minGemValue, maxGemValue + 1);
-        Debug.Log("Gem value assigned: " + gemValue);
+        //Debug.Log($"{gameObject.tag} value assigned: " + gemValue);
 
-        // update UI with the total gems (quota needed to win)
+        // Update UI with the total gems (quota needed to win)
         if (GameUI.instance != null)
         {
             GameUI.instance.UpdateTotalGemsText();
@@ -39,9 +49,8 @@ public class GemPickup : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             //Debug.Log("Player entered gem pickup range.");
-
             isPlayerInRange = true;
-            player = other.GetComponent<PlayerBehavior>(); // store player ref
+            player = other.GetComponent<PlayerBehavior>();
         }
     }
 
@@ -50,9 +59,8 @@ public class GemPickup : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             //Debug.Log("Player exited gem pickup range.");
-
             isPlayerInRange = false;
-            player = null; // clear player ref
+            player = null;
         }
     }
 
@@ -60,43 +68,42 @@ public class GemPickup : MonoBehaviour
     {
         if (isPlayerInRange && Input.GetMouseButtonDown(0)) // check for left mouse button down (button index 0)
         {
-            //Debug.Log("Attempting to collect gem...");
             if (player != null)
             {
                 //Debug.Log("Player has traded: " + player.hasTraded);
-                if (player.hasTraded) // checks if the player has traded with the NPC
+                if (player.hasTraded)
                 {
                     CollectGem();
                 }
                 else
                 {
-                    Debug.Log("You must trade with the NPC before collecting gems.");
+                    Debug.Log("You must trade with the NPC before collecting gems");
                 }
             }
             else
             {
-                Debug.Log("Player reference is null!");
+                Debug.Log("Player reference is null");
             }
         }
     }
 
     private void CollectGem()
     {
-        collectedGems += gemValue; // increment collected gems by the random gem value
-        Debug.Log("Gem Collected! Total Collected: " + collectedGems);
+        PlayerBehavior playerBehavior = player.GetComponent<PlayerBehavior>();
+        playerBehavior.totalValueOfGems += gemValue;
 
-        // play a sfx here
+        Debug.Log("Gem Collected! Value: " + gemValue + ", Player's Total Value: " + playerBehavior.totalValueOfGems);
 
-        // update the UI
-        GameUI.instance.UpdateGemsText();
-
-        // destroy the gem after collection
-        Destroy(gameObject);
-
-        // check for the win condition
-        if (collectedGems >= totalGems)
+        // Update UI
+        if (GameUI.instance != null)
         {
-            GameManager.instance.WinGame();
+            GameUI.instance.UpdateGemsValueText(playerBehavior.totalValueOfGems);
         }
+        else
+        {
+            Debug.LogError("GameUI instance is not initialized.");
+        }
+
+        Destroy(gameObject);
     }
 }

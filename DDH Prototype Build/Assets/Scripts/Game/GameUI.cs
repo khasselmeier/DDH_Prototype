@@ -8,8 +8,8 @@ public class GameUI : MonoBehaviour
 {
     public TextMeshProUGUI ammoText;
     public TextMeshProUGUI goldText;
-    public TextMeshProUGUI gemsText;
-    public TextMeshProUGUI totalGemsText;
+    public TextMeshProUGUI gemsValueText; // quota collected
+    public TextMeshProUGUI totalGemsText; // quota to reach
     public TextMeshProUGUI healthText;
 
     private PlayerBehavior player;
@@ -17,14 +17,21 @@ public class GameUI : MonoBehaviour
     //instance
     public static GameUI instance;
 
-    void Awake()
+    private void Awake()
     {
-        instance = this;
+        if (instance == null)
+        {
+            instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
     }
 
     private void Start()
     {
-        player = FindObjectOfType<PlayerBehavior>(); // finds the player in the scene
+        player = FindObjectOfType<PlayerBehavior>();
         if (player != null)
         {
             Initialize();
@@ -38,11 +45,10 @@ public class GameUI : MonoBehaviour
     public void Initialize()
     {
         UpdateAmmoText();
-        UpdateGemsText();
         UpdateGoldText(player.gold);
         UpdateTotalGemsText(); // update "total quota to win" UI on initialization
         UpdateHealthText(player.currentHealth, player.maxHealth);
-
+        UpdateGemsValueText(0);
     }
 
     public void UpdateTotalGemsText()
@@ -63,9 +69,9 @@ public class GameUI : MonoBehaviour
         }
     }
 
-    public void UpdateGemsText()
+    public void UpdateGemsValueText(int totalValue)
     {
-        gemsText.text = "Quota Collected: " + GemPickup.collectedGems;
+        gemsValueText.text = "Quota Collected: " + totalValue;
     }
 
     public void UpdateGoldText(int goldAmount)

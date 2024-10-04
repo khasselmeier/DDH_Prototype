@@ -18,6 +18,22 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    private void Update()
+    {
+        CheckWinCondition();
+    }
+
+    public void CheckWinCondition()
+    {
+        PlayerBehavior player = FindObjectOfType<PlayerBehavior>();
+
+        if (player != null && player.totalValueOfGems > GemPickup.totalGems)
+        {
+            WinGame();
+            Debug.Log("Win condition met! Player's Total Value: " + player.totalValueOfGems + " exceeds " + GemPickup.totalGems);
+        }
+    }
+
     public void WinGame()
     {
         Debug.Log("You collected the quota! You win!");

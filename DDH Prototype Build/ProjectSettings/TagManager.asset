@@ -8,6 +8,8 @@ TagManager:
   - Enemy
   - Bullet
   - NPC
+  - BaseGem
+  - HighGem
   layers:
   - Default
   - TransparentFX
