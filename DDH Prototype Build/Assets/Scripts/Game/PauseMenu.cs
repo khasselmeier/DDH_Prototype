@@ -18,15 +18,11 @@ public class PauseMenu : MonoBehaviour
         {
             cameraController = mainCamera.GetComponent<CameraController>();
 
-            if (cameraController == null)
+            /*if (cameraController == null)
             {
-                Debug.LogError("CameraController script not found on the Main Camera.");
-            }
+                Debug.Log("CameraController script not found on the Main Camera.");
+            }*/
         }
-        /*else
-        {
-            Debug.LogError("No GameObject with the 'Main Camera' tag found.");
-        }*/
     }
 
     void Update()
@@ -37,15 +33,11 @@ public class PauseMenu : MonoBehaviour
             if (mainCamera != null)
             {
                 cameraController = mainCamera.GetComponent<CameraController>();
-                if (cameraController == null)
+                /*if (cameraController == null)
                 {
-                    Debug.LogError("CameraController script not found on the Main Camera.");
-                }
+                    Debug.Log("CameraController script not found on the Main Camera.");
+                }*/
             }
-            /*else
-            {
-                Debug.LogError("No GameObject with the 'MainCamera' tag found.");
-            }*/
         }
 
         if (Input.GetKeyDown(KeyCode.Tab))
