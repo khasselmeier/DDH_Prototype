@@ -38,10 +38,10 @@ public class GemPickup : MonoBehaviour
         {
             GameUI.instance.UpdateTotalGemsText();
         }
-        else
+        /*else
         {
             Debug.LogError("GameUI instance is not initialized.");
-        }
+        }*/
     }
 
     private void OnTriggerEnter(Collider other)
@@ -64,6 +64,7 @@ public class GemPickup : MonoBehaviour
         }
     }
 
+    /*
     private void Update()
     {
         if (isPlayerInRange && Input.GetMouseButtonDown(0)) // check for left mouse button down (button index 0)
@@ -105,5 +106,5 @@ public class GemPickup : MonoBehaviour
         }
 
         Destroy(gameObject);
-    }
+    }*/
 }

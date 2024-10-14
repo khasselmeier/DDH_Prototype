@@ -27,6 +27,7 @@ public class PlayerBehavior : MonoBehaviour
     public bool canMineHighGem = false; // player must trade twice to mine these gems
     public static int collectedGems = 0;
     public int totalValueOfGems = 0; // quota collected
+    private int tradeCount = 0; // track number of trades completed
 
     private void Start()
     {
@@ -88,14 +89,14 @@ public class PlayerBehavior : MonoBehaviour
     public void TryMine()
     {
         RaycastHit hit;
+        float sphereRadius = 5f;
 
-        // vizualize the raycast in the editor (to help with some gems not being mined)
-        Debug.DrawRay(transform.position, transform.forward * 10.0f, Color.red, 1.0f);
+        // visualize in the editor for debugging
+        Debug.DrawRay(transform.position, transform.forward * 10.0f, Color.red, 5.0f);
 
-        if (Physics.Raycast(transform.position, transform.forward, out hit, 10.0f))
+        if (Physics.SphereCast(transform.position, sphereRadius, transform.forward, out hit, 10.0f))
         {
             GameObject gem = hit.collider.gameObject;
-            //Debug.Log($"Hit: {gem.name}, Tag: {gem.tag}");
 
             if (gem.CompareTag("BaseGem") && canMineBaseGem)
             {
@@ -107,7 +108,7 @@ public class PlayerBehavior : MonoBehaviour
             }
             else
             {
-                Debug.Log("No gem detected in front of the player"); // nothing was hit by raycast
+                Debug.Log("Cannot mine gem: Requirements not met or no gem detected in front of player");
             }
         }
     }
@@ -121,14 +122,27 @@ public class PlayerBehavior : MonoBehaviour
             Destroy(gem);
             collectedGems += 1;
 
-            Debug.Log($"Player mined a {gemType}! Total collected: {collectedGems}, Total Value: {totalValueOfGems}");
+            Debug.Log($"Player mined a {gemType}. Total collected: {collectedGems}, Total Value: {totalValueOfGems}");
 
             // update UI
             GameUI.instance.UpdateGemsValueText(totalValueOfGems);
         }
-        else
+    }
+
+    public void PerformTrade()
+    {
+        tradeCount++;
+
+        if (tradeCount == 1)
         {
-            Debug.LogError("GemPickup component not found on gem.");
+            hasTraded = true;
+            canMineBaseGem = true;
+            Debug.Log("First trade complete. Player can now mine 'Base Gems'");
+        }
+        else if (tradeCount == 2)
+        {
+            canMineHighGem = true;
+            Debug.Log("Second trade complete. Player can now mine 'High Gems'");
         }
     }
 
